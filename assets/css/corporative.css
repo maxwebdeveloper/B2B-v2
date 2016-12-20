@@ -7,7 +7,7 @@ body {
     line-height: 1.5;
     color: #333;
     padding-top: 70px;
-    background-image: url('../../public/img/background.png');
+    background-image: url('http://localhost:8080/b2b_v2/assets/img/background.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: right bottom;
