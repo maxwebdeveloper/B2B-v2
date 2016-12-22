@@ -10,7 +10,9 @@
         <!-- Bootstrap -->
         <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo base_url(); ?>assets/css/bootstrap-theme.min.css" rel="stylesheet">
-<!--        <link href="<?php echo base_url(); ?>assets/css/corporative.css" rel="stylesheet">-->
+        <link href="<?php echo base_url(); ?>assets/css/main.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -49,8 +51,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?= base_url(); ?>backoffice/">Ver Usuarios</a></li>
-                            <li><a href="<?= base_url(); ?>backoffice/nuevo">Nuevo Usuario</a></li>
+                            <li><a href="<?= base_url(); ?>usuarios/">Ver Usuarios</a></li>
+                            <li><a href="<?= base_url(); ?>usuarios/nuevo">Nuevo Usuario</a></li>
                         </ul>
                     </li>
                 </ul>
