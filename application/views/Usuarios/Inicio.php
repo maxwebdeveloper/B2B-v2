@@ -1,7 +1,14 @@
 <div class="container margin-top-100" >
     <div class="row">
         <div class="col-md-12">
-               
+
+            <?php
+            $correcto = $this->session->flashdata('result_usuario');
+            if ($correcto) {
+                echo $correcto;
+            }
+            ?>
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title pull-left">Nuevo Usuario</h3>
@@ -41,7 +48,7 @@
                                             $estado = "<span class='label label-danger'>INACTIVO</span>";
                                         }
                                         
-                                        echo '<tr id="'.$usuario->id.'" data-nombre="'.$usuario->nombre.'" data-direccion="'.$usuario->direccion.'" data-fono="'.$usuario->fono.'" data-correo="'.$usuario->correo.'" data-estado="'.$estado.'" data-empresa="'.$usuario->	empresa.'" data-tipo="'.$usuario->tipo.'">';
+                                        echo '<tr data-id="'.$usuario->id.'" data-nombre="'.$usuario->nombre.'" data-direccion="'.$usuario->direccion.'" data-fono="'.$usuario->fono.'" data-correo="'.$usuario->correo.'" data-estado="'.$estado.'" data-empresa="'.$usuario->	empresa.'" data-tipo="'.$usuario->tipo.'" data-bs="'.base_url().'">';
                                         
                                         echo '<td>'.$usuario->nombre.'</td>';
                                         echo '<td>'.$usuario->direccion.'</td>';
@@ -49,9 +56,9 @@
                                         echo '<td>'.$usuario->correo.'</td>';
                                         echo '<td>'.$estado.'</td>';
                                         echo '<td>
-                                            <button type="button" class="btn btn-xs btn-info btn_ver" data-toggle="modal" data-target="#detalleUsuario"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn btn-xs btn-info btn_ver" title="Detalle" data-toggle="modal" data-target="#detalleUsuario"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                             <a href="'.base_url().'usuarios/editar/'.$usuario->id.'" class="btn btn-xs btn-primary" title="Editar información de usuario"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                            <a href="" class="btn btn-xs btn-danger" title="Eliminar usuario"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                            <button type="button" class="btn btn-xs btn-danger btn_eliminar" title="Eliminar" data-toggle="modal" data-target="#eliminarUsuario"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                         </td>';
                                         echo '</tr>';
                                     }
@@ -64,7 +71,7 @@
                         </table>
                     </div>
 
-                    <!-- Modal -->
+                    <!-- Modal detalle-->
                     <div class="modal fade" id="detalleUsuario" tabindex="-1" role="dialog" aria-labelledby="detalleUsuarioLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -111,7 +118,28 @@
 
                                 </div>
                                 <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal eliminar-->
+                    <div class="modal fade" id="eliminarUsuario" tabindex="-1" role="dialog" aria-labelledby="eliminarUsuarioLabel">
+                        <div class="modal-dialog " role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="eliminarUsuarioLabel">Eliminar Usuario</h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <p id="mensaje_eliminar"></p>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                    <a href="" class="btn btn-danger" id="confirmar">Eliminar</a>
                                 </div>
                             </div>
                         </div>

@@ -6,6 +6,9 @@
         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/backoffice.js"></script>
+        
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
+
         <script src="<?php echo base_url(); ?>assets/js/usuarios.js"></script>
 
         <script type="text/javascript">
