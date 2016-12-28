@@ -7,7 +7,7 @@
                 </div>
                 <div class="panel-body">
                     
-                    <form method="post" action="" class="form-horizontal" id="form_editar_usuario">
+                    <form method="post" action="<?= base_url(); ?>usuarios/actualizar" class="form-horizontal" id="form_editar_usuario">
 
                         <div class="row">
                             <div class="col-md-6">
@@ -17,6 +17,7 @@
                                     <label class="col-sm-3 control-label">Nombre</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" value="<?= $usuario->nombre; ?>" id="nombre" name="nombre" placeholder="Ingrese el nombre del usuario" required>
+                                        <span id="msg_nombre" class="help-block"></span>
                                     </div>
                                 </div>
 
@@ -25,6 +26,7 @@
                                     <label class="col-sm-3 control-label">Dirección</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" value="<?= $usuario->direccion; ?>" id="direccion" name="direccion" placeholder="Ingrese la direccion del usuario" required>
+                                        <span id="msg_direccion" class="help-block"></span>
                                     </div>
                                 </div>
 
@@ -33,6 +35,7 @@
                                     <label class="col-sm-3 control-label">Teléfono</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" value="<?= $usuario->fono; ?>" id="telefono" name="telefono" placeholder="Ingrese el telefono del usuario" required>
+                                        <span id="msg_telefono" class="help-block"></span>
                                     </div>
                                 </div>
 
@@ -41,6 +44,7 @@
                                     <label class="col-sm-3 control-label">E-mail</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" value="<?= $usuario->correo; ?>" id="email" name="email" placeholder="Ingrese el email del usuario" required>
+                                        <span id="msg_email" class="help-block"></span>
                                     </div>
                                 </div>
 
@@ -65,7 +69,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Password</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" value="" id="password" name="password" placeholder="Ingrese una password de usuario" required>
+                                        <input type="text" class="form-control" value="" id="password" name="password" placeholder="Ingrese una password de usuario" >
                                     </div>
                                 </div>
 
@@ -73,7 +77,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Re-Password</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" value="" id="re-password" name="re-password" placeholder="Ingrese nuevamente la password del usuario" required>
+                                        <input type="text" class="form-control" value="" id="re-password" name="re-password" placeholder="Ingrese nuevamente la password del usuario" >
                                     </div>
                                 </div>
 
@@ -82,7 +86,7 @@
                                     <label class="col-sm-3 control-label">Empresa</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="empresa" name="empresa" required>
-                                            <option>Seleccione la empresa</option>
+                                            <option value="">Seleccione la empresa</option>
                                             <?php
                                             foreach ($empresas as $e) {
 
@@ -96,6 +100,7 @@
                                             } 
                                             ?>
                                         </select>
+                                        <span id="msg_empresa" class="help-block"></span>
                                     </div>
                                 </div>
 
@@ -104,7 +109,7 @@
                                     <label class="col-sm-3 control-label">Tipo Usuario</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="tipo" name="tipo" required>
-                                            <option>Seleccione el tipo de usuario</option>
+                                            <option value="">Seleccione el tipo de usuario</option>
                                             <?php
                                             foreach ($tipo_usuario as $tu) {
 
@@ -116,6 +121,7 @@
                                             } 
                                             ?>
                                         </select>
+                                        <span id="msg_tipo" class="help-block"></span>
                                     </div>
                                 </div>
 
@@ -126,6 +132,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
+                                        <input type="hidden" id="id" data-bs="<?= base_url(); ?>" name="id" value="<?= $usuario->id; ?>">
                                         <button type="submit" class="btn btn-success">Guardar cambios</button>
                                         <a href="<?= base_url(); ?>usuarios/" class="btn btn-default">Cancelar</a>
                                     </div>
@@ -134,7 +141,6 @@
                         </div>
                         
                     </form>
-                    
                     
                 </div>
             </div>

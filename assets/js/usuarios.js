@@ -170,126 +170,178 @@ $('#form_nuevo_usuario').validate( {
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::: valida el formulario editar usuario ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-$('#form_editar_usuario').validate( {
+// $('#form_editar_usuario').validate( {
 
-    rules: {
-        nombre: {
-            required: true,
-            minlength: 3,
-            maxlength: 45
-        },
-        direccion: {
-            required: true,
-            minlength: 10,
-            maxlength: 45
-        },
-        telefono: {
-            required: true,
-            minlength: 6,
-            maxlength: 10
-        },
-        email: {
-            required: true,
-            minlength: 8,
-            maxlength: 250,
-            email: true
-        },
-        password: {
-            required: false,
-            minlength: 3,
-            maxlength: 45
-        },
-        re_password: {
-            required: false,
-            minlength: 3,
-            maxlength: 45,
-            equalTo: "#password"
-        },
-        empresa: {
-            required: true
-        },
-        tipo: {
-            required: true
-        },
-    },
-    messages: {
-        nombre: {
-            required: "Ingresa el nombre de la persona",
-            minlength: "El nombre no puede tener menos de 3 caracteres",
-            maxlength: "El nombre no puede tener más de 45 caracteres"
-        },
-        direccion: {
-            required: "Ingresa el direccion de la persona",
-            minlength: "El direccion no puede tener menos de 10 caracteres",
-            maxlength: "El direccion no puede tener más de 45 caracteres"
-        },
-        telefono: {
-            required: "Ingresa el telefono de la persona",
-            minlength: "El telefono no puede tener menos de 6 caracteres",
-            maxlength: "El telefono no puede tener más de 10 caracteres"
-        },
-        email: {
-            required: "Ingresa el email de la persona",
-            minlength: "El email no puede tener menos de 8 caracteres",
-            maxlength: "El email no puede tener más de 250 caracteres",
-            email: "El email ingresado no es valido"
-        },
-        password: {
-            minlength: "El password no puede tener menos de 3 caracteres",
-            maxlength: "El password no puede tener más de 45 caracteres"
-        },
-        re_password: {
-            minlength: "El password no puede tener menos de 3 caracteres",
-            maxlength: "El password no puede tener más de 45 caracteres",
-            equalTo: "Por favor, introduzca la misma password"
-        },
-        empresa: {
-            required: "Seleccione una empresa de la lista"
-        },
-        tipo: {
-            required: "Seleccione el tipo de usuario"
-        },
-    },
-    errorElement: "em",
-    errorPlacement: function ( error, element ) {
+//     rules: {
+//         nombre: {
+//             required: true,
+//             minlength: 3,
+//             maxlength: 45
+//         },
+//         direccion: {
+//             required: true,
+//             minlength: 10,
+//             maxlength: 45
+//         },
+//         telefono: {
+//             required: true,
+//             minlength: 6,
+//             maxlength: 10
+//         },
+//         email: {
+//             required: true,
+//             minlength: 8,
+//             maxlength: 250,
+//             email: true
+//         },
+//         password: {
+//             required: false,
+//             minlength: 3,
+//             maxlength: 45
+//         },
+//         re_password: {
+//             required: false,
+//             minlength: 3,
+//             maxlength: 45,
+//             equalTo: "#password"
+//         },
+//         empresa: {
+//             required: true
+//         },
+//         tipo: {
+//             required: true
+//         },
+//     },
+//     messages: {
+//         nombre: {
+//             required: "Ingresa el nombre de la persona",
+//             minlength: "El nombre no puede tener menos de 3 caracteres",
+//             maxlength: "El nombre no puede tener más de 45 caracteres"
+//         },
+//         direccion: {
+//             required: "Ingresa el direccion de la persona",
+//             minlength: "El direccion no puede tener menos de 10 caracteres",
+//             maxlength: "El direccion no puede tener más de 45 caracteres"
+//         },
+//         telefono: {
+//             required: "Ingresa el telefono de la persona",
+//             minlength: "El telefono no puede tener menos de 6 caracteres",
+//             maxlength: "El telefono no puede tener más de 10 caracteres"
+//         },
+//         email: {
+//             required: "Ingresa el email de la persona",
+//             minlength: "El email no puede tener menos de 8 caracteres",
+//             maxlength: "El email no puede tener más de 250 caracteres",
+//             email: "El email ingresado no es valido"
+//         },
+//         password: {
+//             minlength: "El password no puede tener menos de 3 caracteres",
+//             maxlength: "El password no puede tener más de 45 caracteres"
+//         },
+//         re_password: {
+//             minlength: "El password no puede tener menos de 3 caracteres",
+//             maxlength: "El password no puede tener más de 45 caracteres",
+//             equalTo: "Por favor, introduzca la misma password"
+//         },
+//         empresa: {
+//             required: "Seleccione una empresa de la lista"
+//         },
+//         tipo: {
+//             required: "Seleccione el tipo de usuario"
+//         },
+//     },
+//     errorElement: "em",
+//     errorPlacement: function ( error, element ) {
 
-        // Agrega la clase `help-block` al elemento con error
-        error.addClass( "help-block" );
+//         // Agrega la clase `help-block` al elemento con error
+//         error.addClass( "help-block" );
 
-        // Agrega la clase `has-feedback` al elemento padre div.form-group
-        element.parents( ".form-group" ).addClass( "has-feedback" );
+//         // Agrega la clase `has-feedback` al elemento padre div.form-group
+//         element.parents( ".form-group" ).addClass( "has-feedback" );
 
-        if ( element.prop( "type" ) === "checkbox" ) {
-            error.insertAfter( element.parent( "label" ) );
-        } else {
-            error.insertAfter( element );
+//         if ( element.prop( "type" ) === "checkbox" ) {
+//             error.insertAfter( element.parent( "label" ) );
+//         } else {
+//             error.insertAfter( element );
+//         }
+
+//         // Agrega un span, si no existe, y le aplica el icono de error
+//         if ( !element.next( "span" )[ 0 ] ) {
+//             $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+//         }
+//     },
+//     success: function ( label, element ) {
+
+//         // Agrega un span, si no existe, y le aplica el icono ok
+//         if ( !$( element ).next( "span" )[ 0 ] ) {
+//             $( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+//         }
+
+//     },
+//     highlight: function ( element, errorClass, validClass ) {
+//         $( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+//         $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+//     },
+//     unhighlight: function ( element, errorClass, validClass ) {
+//         $( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+//         $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+//     }
+
+// } );
+
+$('#form_editar_usuario').submit(function(event) {
+    
+    event.preventDefault();
+
+    var base_url = $('#id').data('bs');
+    
+    $.ajax({
+        type: 'POST',
+        url: base_url+'usuarios/actualizar',
+        dataType: 'json', 
+        data: $('#form_editar_usuario').serialize(),
+        success: function(data){
+
+            if (data.correcto) {
+                console.log("paso la validacion");
+                window.location.href = base_url + '/usuarios';
+            } else {
+                console.log("No paso la validacion");
+
+                var nombre      = data.errores.err_nombre;
+                var direccion   = data.errores.err_direccion;
+                var telefono    = data.errores.err_telefono;
+                var email       = data.errores.err_email;
+                var empresa     = data.errores.err_empresa;
+                var tipo        = data.errores.err_tipo;
+
+                addError(nombre,    $('#msg_nombre'));
+                addError(direccion, $('#msg_direccion'));
+                addError(telefono,  $('#msg_telefono'));
+                addError(email,     $('#msg_email'));
+                addError(empresa,   $('#msg_empresa'));
+                addError(tipo,      $('#msg_tipo'));
+            }
+
+
         }
+    });
 
-        // Agrega un span, si no existe, y le aplica el icono de error
-        if ( !element.next( "span" )[ 0 ] ) {
-            $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-        }
-    },
-    success: function ( label, element ) {
+});
 
-        // Agrega un span, si no existe, y le aplica el icono ok
-        if ( !$( element ).next( "span" )[ 0 ] ) {
-            $( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
-        }
+function addError(error, id_span){
 
-    },
-    highlight: function ( element, errorClass, validClass ) {
-        $( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-        $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-    },
-    unhighlight: function ( element, errorClass, validClass ) {
-        $( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-        $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+    if (error != null && error.length > 0) {
+        id_span.closest('.form-group').removeClass('has-success');
+        id_span.closest('.form-group').addClass('has-error');
+        id_span.html(error);
+    } else {
+        id_span.closest('.form-group').removeClass('has-error');
+        id_span.closest('.form-group').addClass('has-success');
+        id_span.html("");
     }
 
-} );
-
-
+}
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: botones estado activo/inactivo ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

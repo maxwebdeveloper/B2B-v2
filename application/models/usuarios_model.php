@@ -66,15 +66,20 @@ class Usuarios_model extends CI_Model {
 		$data = array(
 		        'nombre' 				=> $datos['nombre'], 
 				'direccion'				=> $datos['direccion'], 
-				'fono' 					=> $datos['fono'], 
-				'correo' 				=> $datos['correo'], 
-				'clave' 				=> $datos['clave'],  
+				'fono' 					=> $datos['telefono'], 
+				'correo' 				=> $datos['email'], 
+				'clave' 				=> $datos['password'],  
 				'tb_empresa_id' 		=> $datos['empresa'], 
-				'tb_tipo_usuario_id' 	=> $datos['tipo']
+				'tb_tipo_usuario_id' 	=> $datos['tipo'],
+				'estado' 				=> $datos['estado']
 		);
 
+		if ($datos['password'] == '') {
+			unset($data['clave']);
+		}
+
 		$this->db->where('id', $datos['id']);
-		$this->db->update('tb_persona', $data);
+		return $this->db->update('tb_persona', $data);
 		
 	}
 
