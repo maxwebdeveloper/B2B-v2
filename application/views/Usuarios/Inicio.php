@@ -41,6 +41,7 @@
                                     
                                     foreach ($usuarios as $usuario) {
                                         
+                                        $nombre = $usuario->nombre.' '.$usuario->apellido;
                                             
                                         if ($usuario->estado == 'A') {
                                             $estado = "<span class='label label-success'>ACTIVO</span>";
@@ -48,9 +49,9 @@
                                             $estado = "<span class='label label-danger'>INACTIVO</span>";
                                         }
                                         
-                                        echo '<tr data-id="'.$usuario->id.'" data-nombre="'.$usuario->nombre.'" data-direccion="'.$usuario->direccion.'" data-fono="'.$usuario->fono.'" data-correo="'.$usuario->correo.'" data-estado="'.$estado.'" data-empresa="'.$usuario->	empresa.'" data-tipo="'.$usuario->tipo.'" data-bs="'.base_url().'">';
+                                        echo '<tr data-id="'.$usuario->id.'" data-nombre="'.$nombre.'" data-direccion="'.$usuario->direccion.'" data-fono="'.$usuario->fono.'" data-correo="'.$usuario->correo.'" data-estado="'.$estado.'" data-empresa="'.$usuario->	empresa.'" data-tipo="'.$usuario->tipo.'" data-comuna="'.$usuario->comuna.'" data-provincia="'.$usuario->provincia.'" data-region="'.$usuario->region.'" data-bs="'.base_url().'">';
                                         
-                                        echo '<td>'.$usuario->nombre.'</td>';
+                                        echo '<td>'.$nombre.'</td>';
                                         echo '<td>'.$usuario->direccion.'</td>';
                                         echo '<td>'.$usuario->fono.'</td>';
                                         echo '<td>'.$usuario->correo.'</td>';
@@ -110,6 +111,18 @@
                                             <tr>
                                                 <th>Tipo de Usuario</th>
                                                 <td id="tipo"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Comuna</th>
+                                                <td id="comuna"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Provincia</th>
+                                                <td id="provincia"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Región</th>
+                                                <td id="region"></td>
                                             </tr>
 
 

@@ -33,6 +33,7 @@ class Usuarios extends CI_Controller {
 
         $data['empresas']       = $this->main_model->getEmpresa();
         $data['tipo_usuario']   = $this->main_model->getTipoUsuario();
+        $data['regiones']   = $this->main_model->getRegion();
 
 		$this->load->view('Backoffice/header', $data);
 		$this->load->view('Usuarios/nuevo');

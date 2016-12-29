@@ -22,6 +22,15 @@
                                     </div>
                                 </div>
 
+                                <!-- apellido -->
+                                <div class="form-group <?php if (form_error('apellido')){echo "has-error";} ?>" >
+                                    <label class="col-sm-3 control-label">Apellido</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" value="<?= set_value('apellido'); ?>" class="form-control" id="apellido" name="apellido" placeholder="Ingrese el apellido del usuario" required>
+                                        <?= form_error('apellido', '<span id="" class="help-block">', '</span>'); ?>
+                                    </div>
+                                </div>
+
                                 <!-- direccion -->
                                 <div class="form-group <?php if (form_error('direccion')){echo "has-error";} ?>">
                                     <label class="col-sm-3 control-label">Dirección</label>
@@ -31,6 +40,47 @@
                                     </div>
                                 </div>
 
+                                <!-- region -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Región</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" id="region" name="region" required>
+                                            <option value="">Seleccione la region</option>
+                                            <?php
+                                            foreach ($regiones as $r) {
+                                                echo '<option value="'.$r->id.'">'.$r->region.'</option>';
+                                            } 
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- provincia -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Provincia</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" id="provincia" name="provincia" required>
+                                            <option value="">Seleccione la provincia</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- comuna -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Comuna</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" id="comuna" name="comuna" required>
+                                            <option value="">Seleccione la comuna</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                
+
+                            </div>
+                            <div class="col-md-6">
+                                
                                 <!-- telefono -->
                                 <div class="form-group <?php if (form_error('telefono')){echo "has-error";} ?>">
                                     <label class="col-sm-3 control-label">Teléfono</label>
@@ -49,11 +99,6 @@
                                     </div>
                                 </div>
 
-                                
-
-                            </div>
-                            <div class="col-md-6">
-                                
                                 <!-- password -->
                                 <div class="form-group <?php if (form_error('password')){echo "has-error";} ?>">
                                     <label class="col-sm-3 control-label">Password</label>

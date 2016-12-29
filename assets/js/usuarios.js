@@ -1,3 +1,7 @@
+var main = {
+    bs : $('#main').data('bs')
+};
+
 // datatable usuarios
 $('#tb_usuarios').DataTable({
     "language": {
@@ -19,7 +23,10 @@ $('.btn_ver').click(function() {
 	$('#correo').html(fila.data('correo'));
 	$('#estado').html(fila.data('estado'));
 	$('#empresa').html(fila.data('empresa'));
-	$('#tipo').html(fila.data('tipo'));
+    $('#tipo').html(fila.data('tipo'));
+    $('#comuna').html(fila.data('comuna'));
+    $('#provincia').html(fila.data('provincia'));
+	$('#region').html(fila.data('region'));
 
 
 });
@@ -388,3 +395,83 @@ function inactivo(){
     $('#estado').val($('#btn_inactivo').data("valor"));
 
 }
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+// ::::::::::::::::::::::::::::::::::::::::::::::::: cargar select anidados regiones, provincia y comuna :::::::::::::::::::::::::::::::::::::::::::::::::
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+$('#region').change(function () {
+    
+    var id_region = $(this).val();
+
+    if (id_region != '') {
+        $('#provincia option').remove();
+
+        $.ajax({
+            url: main.bs + 'main/loadProvincia',
+            type: 'POST',
+            data: {region_id: id_region},
+            dataType: 'json',
+        })
+        .done(function(data) {
+            var provicias = data;
+            for (var i = 0; i < provicias.length; i++) {
+                var option = '<option value="'+ provicias[i].id +'">'+ provicias[i].provincia +'</option>';
+                $('#provincia').append(option);
+                $('#provincia').focus();
+            }
+        })
+        .fail(function() {
+            alert("Error al cargar las provincias");
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+        
+    }else{
+        $('#provincia option').remove();
+        $('#comuna option').remove();
+    }
+
+
+});
+
+$('#provincia').on('focus change', function () {
+    
+    var id_provincia = $(this).val();
+
+    if (id_provincia != '') {
+
+        $('#comuna option').remove();
+
+        $.ajax({
+            url: main.bs + 'main/loadComuna',
+            type: 'POST',
+            data: {provincia_id: id_provincia},
+            dataType: 'json',
+        })
+        .done(function(data) {
+            
+            var comuna = data;
+
+            for (var i = 0; i < comuna.length; i++) {
+                var option = '<option value="'+ comuna[i].id +'">'+ comuna[i].comuna +'</option>';
+                $('#comuna').append(option);
+                // $('#comuna').focus();
+            }
+        })
+        .fail(function() {
+            alert("Error al cargar las comunas");
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+
+    }else{
+        $('#comuna option').remove();
+    }
+
+
+});
+
