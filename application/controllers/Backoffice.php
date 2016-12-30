@@ -86,6 +86,57 @@ class Backoffice extends CI_Controller {
 
     }
     
+    public function agregarEmpresa(){
+
+        $empresa = $this->input->post('empresa');
+
+        $this->main_model->into     = "tb_empresa";
+        $this->main_model->insert   = "nombre";
+        $this->main_model->values   = "'".$empresa."'";
+
+        if ($this->main_model->add())  {
+
+            $clase      = 'alert-success';
+            $mensaje    = 'Empresa agregada correctamente.';
+        
+        }else{
+        
+            $clase      = 'alert-danger';
+            $mensaje    = 'Error al intentar registrar.';
+
+        }
+
+        $this->session->set_flashdata('result_usuario', '<div class="alert '.$clase.' alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>'.$mensaje.'</strong>
+            </div>');
+
+        echo json_encode("listo");
+
+    }
+    
+    public function loadEmpresas(){
+
+        $empresas = $this->main_model->getEmpresa(false, true);
+
+        $datos = array();
+
+        for($i = 0; $i < count($empresas); $i++){
+
+            $datos[$i]['id'] = $empresas[$i]['id'];
+            $datos[$i]['nombre'] = $empresas[$i]['nombre'];
+
+            if ($empresas[$i]['estado'] == "A") {
+                $datos[$i]['estado'] = 'Activo';
+            }else{
+                $datos[$i]['estado'] = 'Inactivo';
+            }
+        }
+
+        echo json_encode($datos);
+
+    }
+    
     public function nameFunction(){
 
 

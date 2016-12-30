@@ -43,13 +43,6 @@
                     <li><a href="">Home</a></li>
                     <li><a href="<?= base_url(); ?>backoffice/mantenedor">Mantenedor</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Empresas <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Ver Empresas</a></li>
-                            <li><a href="#">Nuevo Empresa</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="<?= base_url(); ?>usuarios/">Ver Usuarios</a></li>

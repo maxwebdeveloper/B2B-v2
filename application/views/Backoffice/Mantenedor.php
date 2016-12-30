@@ -15,48 +15,69 @@
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane active" id="tab_empresa">
 
-					<div style="margin-top: 45px;">
+					<div class="container" style="margin-top: 45px;">
 
-						<h3 class="sub-header">Nueva Empresa</h3>
+						<div class="row">
+							
+							<div class="col-md-12">
+							
+								<h3 class="sub-header">Nueva Empresa</h3>
 
-						<form id="" method="post" action="" class="form-horizontal">
-							<div class="form-group">
-								<label for="" class="label-control col-sm-2">Nombre Empresa</label>
-								<div class="col-sm-4 input-group">
-									<input type="text" id="empresa" name="empresa" class="form-control" placeholder="Ingrese el nombre de la empresa" required="">
-									<span class="input-group-btn">
-										<button class="btn btn-success" type="submit">Agregar</button>
-								    </span>
-								</div>
+								<form id="form_nueva_empresa" method="post" action="" class="form-horizontal">
+									<div class="form-group">
+										<label for="" class="label-control col-sm-2">Nombre Empresa</label>
+										<div class="col-sm-5 input-group">
+											<input type="text" id="man_empresa" name="man_empresa" minlength="3" maxlength="45" class="form-control" placeholder="Ingrese el nombre de la empresa" required="">
+											<span class="input-group-btn">
+												<button class="btn btn-success" type="submit">Agregar</button>
+										    </span>
+										</div>
+									</div>
+								</form>	
+
 							</div>
-						</form>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								
+								<h3 class="sub-header">Lista de Empresas</h3>
 
-						<h3 class="sub-header">Lista de Empresas</h3>
-
-						<table id="tb_empresas" class="table table-hover table-striped ">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Nombre</th>
-									<th>Estado</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach ($empresas as $e): 
-									if ($e->estado == "A") {
-										$e->estado = "Activo";
-									}else{
-										$e->estado = "Inactivo";
+								<?php
+									$correcto = $this->session->flashdata('result_usuario');
+									if ($correcto) {
+										echo $correcto;
 									}
 								?>
-								<tr>
-									<td><?php echo $e->id; ?></td>
-									<td><?php echo $e->nombre; ?></td>
-									<td><?php echo $e->estado; ?></td>
-								</tr>
-								<?php endforeach ?>
-							</tbody>
-						</table>
+								
+								<table id="tb_empresas" class="table table-hover table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Nombre</th>
+											<th>Estado</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php foreach ($empresas as $e): 
+											if ($e->estado == "A") {
+												$e->estado = "Activo";
+											}else{
+												$e->estado = "Inactivo";
+											}
+										?>
+										<tr>
+											<td><?php echo $e->id; ?></td>
+											<td><?php echo $e->nombre; ?></td>
+											<td><?php echo $e->estado; ?></td>
+										</tr>
+										<?php endforeach ?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+
+
 					</div>
 					
 					

@@ -24,7 +24,7 @@ class Main_model extends CI_Model {
 	}
 
 	// obtiene una o todas las filas de la tabla tb_empresa 
-	public function getEmpresa($id = false){
+	public function getEmpresa($id = false, $result = false){
 
 		$this->db->select('*');
 		$this->db->from('tb_empresa');
@@ -45,7 +45,16 @@ class Main_model extends CI_Model {
 			$query = $this->db->get();
 
 			if ($query->num_rows() > 0) {
-	        	return $query->result();
+
+				if ($result) {
+		        	
+		        	// retorna un array
+		        	return $query->result_array();
+					
+				}else{
+		        	return $query->result();
+				}
+
 			}else{
 				return false;
 			}
@@ -234,6 +243,18 @@ class Main_model extends CI_Model {
 	/**
 	 * funcion actualiza cualquier tabla
 	 */
+
+	public function add(){
+
+		$insert 	= $this->insert;
+		$into 		= $this->into;
+		$values 	= $this->values;
+
+		$sql = "INSERT INTO ".$into." (".$insert.") VALUES (".$values.")";
+
+		return $this->db->query($sql);
+		
+	}
 
 	public function update(){
 
