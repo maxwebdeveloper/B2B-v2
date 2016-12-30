@@ -23,6 +23,7 @@
                         <table class="table table-hover" id="tb_usuarios">
                             <thead>
                                 <tr>
+                                    <th>Rut</th>
                                     <th>Nombre</th>
                                     <th>Dirección</th>
                                     <th>Fono</th>
@@ -42,6 +43,10 @@
                                     foreach ($usuarios as $usuario) {
                                         
                                         $nombre = $usuario->nombre.' '.$usuario->apellido;
+                                        $disabled = "";
+                                        if ($usuario->tipo == "Administrador") {
+                                            $disabled = 'disabled = "true"';
+                                        }
                                             
                                         if ($usuario->estado == 'A') {
                                             $estado = "<span class='label label-success'>ACTIVO</span>";
@@ -49,8 +54,9 @@
                                             $estado = "<span class='label label-danger'>INACTIVO</span>";
                                         }
                                         
-                                        echo '<tr data-id="'.$usuario->id.'" data-nombre="'.$nombre.'" data-direccion="'.$usuario->direccion.'" data-fono="'.$usuario->fono.'" data-correo="'.$usuario->correo.'" data-estado="'.$estado.'" data-empresa="'.$usuario->	empresa.'" data-tipo="'.$usuario->tipo.'" data-comuna="'.$usuario->comuna.'" data-provincia="'.$usuario->provincia.'" data-region="'.$usuario->region.'" data-bs="'.base_url().'">';
+                                        echo '<tr data-id="'.$usuario->id.'" data-rut="'.$usuario->rut.'" data-nombre="'.$nombre.'" data-direccion="'.$usuario->direccion.'" data-fono="'.$usuario->fono.'" data-correo="'.$usuario->correo.'" data-estado="'.$estado.'" data-empresa="'.$usuario->	empresa.'" data-tipo="'.$usuario->tipo.'" data-comuna="'.$usuario->comuna.'" data-provincia="'.$usuario->provincia.'" data-region="'.$usuario->region.'" data-bs="'.base_url().'">';
                                         
+                                        echo '<td>'.$usuario->rut.'</td>';
                                         echo '<td>'.$nombre.'</td>';
                                         echo '<td>'.$usuario->direccion.'</td>';
                                         echo '<td>'.$usuario->fono.'</td>';
@@ -59,7 +65,7 @@
                                         echo '<td>
                                             <button type="button" class="btn btn-xs btn-info btn_ver" title="Detalle" data-toggle="modal" data-target="#detalleUsuario"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                             <a href="'.base_url().'usuarios/editar/'.$usuario->id.'" class="btn btn-xs btn-primary" title="Editar información de usuario"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                            <button type="button" class="btn btn-xs btn-danger btn_eliminar" title="Eliminar" data-toggle="modal" data-target="#eliminarUsuario"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn btn-xs btn-danger btn_eliminar" title="Eliminar" data-toggle="modal" data-target="#eliminarUsuario" '.$disabled.'><i class="fa fa-trash" aria-hidden="true"></i></button>
                                         </td>';
                                         echo '</tr>';
                                     }
@@ -72,6 +78,7 @@
                         </table>
                     </div>
 
+
                     <!-- Modal detalle-->
                     <div class="modal fade" id="detalleUsuario" tabindex="-1" role="dialog" aria-labelledby="detalleUsuarioLabel">
                         <div class="modal-dialog" role="document">
@@ -82,52 +89,85 @@
                                 </div>
                                 <div class="modal-body">
 
-                                    <table class="table table-hover">
-                                        <tbody>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <td id="nombre"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Dirección</th>
-                                                <td id="direccion"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Fono</th>
-                                                <td id="fono"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Correo</th>
-                                                <td id="correo"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Estado</th>
-                                                <td id="estado"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Empresa</th>
-                                                <td id="empresa"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Tipo de Usuario</th>
-                                                <td id="tipo"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Comuna</th>
-                                                <td id="comuna"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Provincia</th>
-                                                <td id="provincia"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Región</th>
-                                                <td id="region"></td>
-                                            </tr>
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#detalle_general" aria-controls="detalle_general" role="tab" data-toggle="tab">Datos Personales</a>
+                                        </li>
+                                        <li role="presentation" class="">
+                                            <a href="#detalle_gestion" aria-controls="detalle_gestion" role="tab" data-toggle="tab">Datos de Gestión</a>
+                                        </li>
+                                    </ul>
+
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="detalle_general">
+                                    
+                                            <table class="table table-hover " style="margin-top: 15px;">
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="border-top: 1px solid transparent;">Rut</th>
+                                                        <td style="border-top: 1px solid transparent;" id="rut"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <td id="nombre"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Fono</th>
+                                                        <td id="fono"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Correo</th>
+                                                        <td id="correo"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Dirección</th>
+                                                        <td id="direccion"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Comuna</th>
+                                                        <td id="comuna"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Provincia</th>
+                                                        <td id="provincia"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Región</th>
+                                                        <td id="region"></td>
+                                                    </tr>
 
 
-                                        </tbody>
-                                    </table>
+                                                </tbody>
+                                            </table>
+                                            
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="detalle_gestion">
+                                            
+                                            <table class="table table-hover" style="margin-top: 15px;">
+                                                <tbody>
+
+                                                    <tr>
+                                                        <th style="border-top: 1px solid transparent;">Estado</th>
+                                                        <td style="border-top: 1px solid transparent;" id="estado"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Empresa</th>
+                                                        <td id="empresa"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Tipo de Usuario</th>
+                                                        <td id="tipo"></td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
 
                                 </div>
                                 <div class="modal-footer">

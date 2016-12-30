@@ -21,6 +21,8 @@ class Main extends CI_Controller {
 
 	}
 
+	
+
 	public function loadProvincia(){
 		
 		$id_region = $this->input->post('region_id');
@@ -33,11 +35,14 @@ class Main extends CI_Controller {
 	public function loadComuna(){
 		
 		$id_comuna = $this->input->post('provincia_id');
+		
 		$comunas = $this->main_model->getComuna(false, $id_comuna);
 
 		echo json_encode($comunas);
 
 	}
+
+	
 
 
 }

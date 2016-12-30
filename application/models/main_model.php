@@ -3,6 +3,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Main_model extends CI_Model {
 
+	public $insert;
+	public $into;
+	public $values;
+
+	public $select;
+	public $from;
+	public $where;
+	public $rows;
+	public $num_rows;
+
+	public $update;
+	public $set;
+
 	public function __construct(){
 
 		parent::__construct();
@@ -217,5 +230,32 @@ class Main_model extends CI_Model {
 		}
 		
 	}	
+
+	/**
+	 * funcion actualiza cualquier tabla
+	 */
+
+	public function update(){
+
+		$update 	= $this->update;
+		$set 		= $this->set;
+		$where 		= $this->where;
+
+		$sql = "UPDATE ".$update." SET ".$set." WHERE ".$where;
+
+		$this->db->query($sql);
+		
+	}
+
+	public function delete(){
+
+		$from = $this->from;
+		$where = $this->where;
+
+		$sql = "DELETE FROM ".$from." WHERE ".$where;
+
+		$this->db->query($sql);
+		
+	}
 
 }

@@ -13,8 +13,9 @@ class Usuarios_model extends CI_Model {
 	// obtiene todos los usuarios
 	public function getUser($id = false){
   
-		$this->db->select('p.id, p.nombre, p.apellido, p.direccion, p.fono, p.correo, p.estado, e.nombre as empresa, t.nombre as tipo');
-		$this->db->select('e.nombre AS empresa, t.nombre AS tipo, c.comuna, pro.provincia, r.region');
+		$this->db->select('p.id, p.rut, p.nombre, p.apellido, p.direccion, p.fono, p.correo, p.estado, e.nombre as empresa, t.nombre as tipo');
+		$this->db->select('e.nombre AS empresa, t.nombre AS tipo');
+		$this->db->select('c.comuna, c.id as id_comuna, pro.provincia, pro.id as id_provincia, r.region, r.id as id_region');
 
 		$this->db->from('tb_persona p');
 
@@ -53,13 +54,16 @@ class Usuarios_model extends CI_Model {
 	public function addUser($datos){
 
 		$data = array(
+				'rut' 					=> $datos['rut'], 
 				'nombre' 				=> $datos['nombre'], 
+				'apellido' 				=> $datos['apellido'], 
 				'direccion'				=> $datos['direccion'], 
 				'fono' 					=> $datos['telefono'], 
 				'correo' 				=> $datos['email'], 
 				'clave' 				=> $datos['password'],  
 				'tb_empresa_id' 		=> $datos['empresa'], 
-				'tb_tipo_usuario_id' 	=> $datos['tipo']
+				'tb_tipo_usuario_id' 	=> $datos['tipo'],
+				'tb_comuna_id' 			=> $datos['comuna'],
 			);
 
 		return $this->db->insert('tb_persona', $data);
@@ -70,14 +74,17 @@ class Usuarios_model extends CI_Model {
 	public function updateUser($datos){
 
 		$data = array(
+		        'rut' 					=> $datos['rut'], 
 		        'nombre' 				=> $datos['nombre'], 
+		        'apellido' 				=> $datos['apellido'], 
 				'direccion'				=> $datos['direccion'], 
 				'fono' 					=> $datos['telefono'], 
 				'correo' 				=> $datos['email'], 
 				'clave' 				=> $datos['password'],  
 				'tb_empresa_id' 		=> $datos['empresa'], 
 				'tb_tipo_usuario_id' 	=> $datos['tipo'],
-				'estado' 				=> $datos['estado']
+				'estado' 				=> $datos['estado'],
+				'tb_comuna_id' 			=> $datos['comuna'],
 		);
 
 		if ($datos['password'] == '') {

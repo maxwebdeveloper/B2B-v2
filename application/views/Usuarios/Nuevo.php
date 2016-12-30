@@ -13,6 +13,15 @@
                         <div class="row">
                             <div class="col-md-6">
 
+                                <!-- rut -->
+                                <div class="form-group <?php if (form_error('rut')){echo "has-error";} ?>" >
+                                    <label class="col-sm-3 control-label">Rut</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" value="<?= set_value('rut'); ?>" class="form-control" id="rut" name="rut" placeholder="Ingrese el rut del usuario" required>
+                                        <?= form_error('rut', '<span id="" class="help-block">', '</span>'); ?>
+                                    </div>
+                                </div>
+
                                 <!-- nombre -->
                                 <div class="form-group <?php if (form_error('nombre')){echo "has-error";} ?>" >
                                     <label class="col-sm-3 control-label">Nombre</label>

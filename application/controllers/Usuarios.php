@@ -44,13 +44,16 @@ class Usuarios extends CI_Controller {
     public function insertar(){
 
         // establecemos las reglas de validacion
+        $this->form_validation->set_rules('rut',     'Rut',             'required|min_length[9]|max_length[10]|is_unique[tb_persona.rut]');
         $this->form_validation->set_rules('nombre',     'Nombre',       'required|min_length[3]|max_length[45]');
+        $this->form_validation->set_rules('apellido',   'Apellido',     'required|min_length[3]|max_length[45]');
         $this->form_validation->set_rules('direccion',  'Direccion',    'required|min_length[10]|max_length[45]');
         $this->form_validation->set_rules('telefono',   'Telefono',     'required|min_length[6]|max_length[10]');
-        $this->form_validation->set_rules('email',      'E-mail',        'required|min_length[8]|max_length[250]|valid_email|is_unique[tb_persona.correo]');
+        $this->form_validation->set_rules('email',      'E-mail',       'required|min_length[8]|max_length[250]|valid_email|is_unique[tb_persona.correo]');
         $this->form_validation->set_rules('password',   'Password',     'required|min_length[3]|max_length[45]');
         $this->form_validation->set_rules('empresa',    'Empresa',      'required');
         $this->form_validation->set_rules('tipo',       'Tipo',         'required');
+        $this->form_validation->set_rules('comuna',     'Comuna',       'required');
 
         // seteamos los mensajes de error
         $this->form_validation->set_message('required', 'El campo %s es requerido');
@@ -69,13 +72,16 @@ class Usuarios extends CI_Controller {
 
             // si pasan la validacion son capturados
             $datos = array(
+                'rut'       => $this->input->post('rut'),
                 'nombre'    => $this->input->post('nombre'),
+                'apellido'  => $this->input->post('apellido'),
                 'direccion' => $this->input->post('direccion'),
                 'telefono'  => $this->input->post('telefono'),
                 'email'     => $this->input->post('email'),
                 'password'  => $this->input->post('password'),
                 'empresa'   => $this->input->post('empresa'),
                 'tipo'      => $this->input->post('tipo'),
+                'comuna'    => $this->input->post('comuna'),
             );
 
             // insertamos los datos en la db
@@ -119,6 +125,9 @@ class Usuarios extends CI_Controller {
 
             $data['empresas']       = $this->main_model->getEmpresa();
             $data['tipo_usuario']   = $this->main_model->getTipoUsuario();
+            $data['regiones']       = $this->main_model->getRegion();
+            $data['provincias']     = $this->main_model->getProvincia();
+            $data['comunas']        = $this->main_model->getComuna();
             
             $data['title_page'] = 'Usuarios | Editar';
 
@@ -133,13 +142,16 @@ class Usuarios extends CI_Controller {
     public function actualizar(){
         
         // establecemos las reglas de validacion
+        $this->form_validation->set_rules('rut',        'Rut',             'required|min_length[9]|max_length[10]');
         $this->form_validation->set_rules('nombre',     'Nombre',       'required|min_length[3]|max_length[45]');
+        $this->form_validation->set_rules('apellido',   'Apellido',     'required|min_length[3]|max_length[45]');
         $this->form_validation->set_rules('direccion',  'Direccion',    'required|min_length[10]|max_length[45]');
         $this->form_validation->set_rules('telefono',   'Telefono',     'required|min_length[6]|max_length[10]');
         $this->form_validation->set_rules('email',      'E-mail',       'required|min_length[8]|max_length[250]|valid_email');
         $this->form_validation->set_rules('password',   'Password',     'min_length[3]|max_length[45]');
         $this->form_validation->set_rules('empresa',    'Empresa',      'required');
         $this->form_validation->set_rules('tipo',       'Tipo',         'required');
+        $this->form_validation->set_rules('comuna',     'Comuna',       'required');
 
         // seteamos los mensajes de error
         $this->form_validation->set_message('required',     'El campo %s es requerido');
@@ -153,13 +165,16 @@ class Usuarios extends CI_Controller {
 
             // si hay errores se envian a la vista
             $errores = array(
+                'err_rut'       => str_replace('-', '', form_error('rut', '-', '-')),
                 'err_nombre'    => str_replace('-', '', form_error('nombre', '-', '-')),
+                'err_apellido'  => str_replace('-', '', form_error('apellido', '-', '-')),
                 'err_direccion' => str_replace('-', '', form_error('direccion', '-', '-')),
                 'err_telefono'  => str_replace('-', '', form_error('telefono', '-', '-')),
                 'err_email'     => str_replace('-', '', form_error('email', '-', '-')),
                 'err_password'  => str_replace('-', '', form_error('password', '-', '-')),
                 'err_empresa'   => str_replace('-', '', form_error('empresa', '-', '-')),
                 'err_tipo'      => str_replace('-', '', form_error('tipo', '-', '-')),
+                'err_comuna'    => str_replace('-', '', form_error('comuna', '-', '-')),
             );
 
             $respuesta = array('correcto' => false, 'errores' => $errores);
@@ -172,7 +187,9 @@ class Usuarios extends CI_Controller {
             // si pasan la validacion son capturados
             $datos = array(
                 'id'        => $this->input->post('id'),
+                'rut'    => $this->input->post('rut'),
                 'nombre'    => $this->input->post('nombre'),
+                'apellido'  => $this->input->post('apellido'),
                 'direccion' => $this->input->post('direccion'),
                 'telefono'  => $this->input->post('telefono'),
                 'email'     => $this->input->post('email'),
@@ -180,6 +197,7 @@ class Usuarios extends CI_Controller {
                 'empresa'   => $this->input->post('empresa'),
                 'tipo'      => $this->input->post('tipo'),
                 'estado'    => $this->input->post('estado'),
+                'comuna'    => $this->input->post('comuna'),
             );
 
             // insertamos los datos en la db

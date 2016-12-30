@@ -1,3 +1,4 @@
+// objeto que contiene las variables globales
 var main = {
     bs : $('#main').data('bs')
 };
@@ -5,9 +6,11 @@ var main = {
 // datatable usuarios
 $('#tb_usuarios').DataTable({
     "language": {
-    	url : 'http://cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json'
+        url : 'http://cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json'
     }
 });
+
+
 
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // :::::::::::::::::::::::::::::::::::::::::::: evento click sobre el boton con la clase btn_ver (ver detalle) ::::::::::::::::::::::::::::::::::::::::::::
@@ -17,6 +20,7 @@ $('.btn_ver').click(function() {
 	var fila = $(this).closest('tr');
 
 	// modificamos el contenido de la modal detalle
+    $('#rut').html(fila.data('rut'));
 	$('#nombre').html(fila.data('nombre'));
 	$('#direccion').html(fila.data('direccion'));
 	$('#fono').html(fila.data('fono'));
@@ -56,7 +60,17 @@ $('.btn_eliminar').click(function(){
 $('#form_nuevo_usuario').validate( {
 
     rules: {
+        rut: {
+            required: true,
+            minlength: 9,
+            maxlength: 10
+        },
         nombre: {
+            required: true,
+            minlength: 3,
+            maxlength: 45
+        },
+        apellido: {
             required: true,
             minlength: 3,
             maxlength: 45
@@ -94,12 +108,31 @@ $('#form_nuevo_usuario').validate( {
         tipo: {
             required: true
         },
+        region: {
+            required: true
+        },
+        provincia: {
+            required: true
+        },
+        comuna: {
+            required: true
+        },
     },
     messages: {
+        rut: {
+            required: "Ingresa el rut de la persona",
+            minlength: "El rut no puede tener menos de 9 caracteres",
+            maxlength: "El rut no puede tener más de 10 caracteres"
+        },
         nombre: {
             required: "Ingresa el nombre de la persona",
             minlength: "El nombre no puede tener menos de 3 caracteres",
             maxlength: "El nombre no puede tener más de 45 caracteres"
+        },
+        apellido: {
+            required: "Ingresa el apellido de la persona",
+            minlength: "El apellido no puede tener menos de 9 caracteres",
+            maxlength: "El apellido no puede tener más de 10 caracteres"
         },
         direccion: {
             required: "Ingresa el direccion de la persona",
@@ -133,6 +166,15 @@ $('#form_nuevo_usuario').validate( {
         },
         tipo: {
             required: "Seleccione el tipo de usuario"
+        },
+        region: {
+            required: "Seleccione la region de usuario"
+        },
+        provincia: {
+            required: "Seleccione la provincia de usuario"
+        },
+        comuna: {
+            required: "Seleccione la comuna de usuario"
         },
     },
     errorElement: "em",
@@ -299,35 +341,39 @@ $('#form_nuevo_usuario').validate( {
 $('#form_editar_usuario').submit(function(event) {
     
     event.preventDefault();
-
-    var base_url = $('#id').data('bs');
     
     $.ajax({
         type: 'POST',
-        url: base_url+'usuarios/actualizar',
+        url: main.bs + 'usuarios/actualizar',
         dataType: 'json', 
         data: $('#form_editar_usuario').serialize(),
         success: function(data){
 
             if (data.correcto) {
                 console.log("paso la validacion");
-                window.location.href = base_url + '/usuarios';
+                window.location.href = main.bs + 'usuarios';
             } else {
                 console.log("No paso la validacion");
 
+                var rut         = data.errores.err_rut;
                 var nombre      = data.errores.err_nombre;
+                var apellido    = data.errores.err_apellido;
                 var direccion   = data.errores.err_direccion;
                 var telefono    = data.errores.err_telefono;
                 var email       = data.errores.err_email;
                 var empresa     = data.errores.err_empresa;
                 var tipo        = data.errores.err_tipo;
+                var comuna        = data.errores.err_comuna;
 
+                addError(rut,       $('#msg_rut'));
                 addError(nombre,    $('#msg_nombre'));
+                addError(apellido,  $('#msg_apellido'));
                 addError(direccion, $('#msg_direccion'));
                 addError(telefono,  $('#msg_telefono'));
                 addError(email,     $('#msg_email'));
                 addError(empresa,   $('#msg_empresa'));
                 addError(tipo,      $('#msg_tipo'));
+                addError(comuna,    $('#msg_comuna'));
             }
 
 
@@ -433,7 +479,6 @@ $('#region').change(function () {
         $('#comuna option').remove();
     }
 
-
 });
 
 $('#provincia').on('focus change', function () {
@@ -471,7 +516,6 @@ $('#provincia').on('focus change', function () {
     }else{
         $('#comuna option').remove();
     }
-
 
 });
 
