@@ -123,6 +123,37 @@ class Main_model extends CI_Model {
 			
 		}
 		
+	}
+
+	// obtiene una o todas las filas de la tabla getFormatoConsumo 
+	public function getFormatoConsumo($id = false){
+
+		$this->db->select('*');
+		$this->db->from('tb_formato_consumo');
+		
+		if ($id != false) {
+
+			$this->db->where('id', $id);
+			$query = $this->db->get();
+
+			if ($query->num_rows() > 0) {
+	        	return $query->row();
+			}else{
+				return false;
+			}
+			
+		}else{
+
+			$query = $this->db->get();
+
+			if ($query->num_rows() > 0) {
+	        	return $query->result();
+			}else{
+				return false;
+			}
+			
+		}
+		
 	}	
 	
 	// obtiene una o todas las filas de la tabla tb_region 

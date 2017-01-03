@@ -10,6 +10,26 @@ class Usuarios_model extends CI_Model {
 
 	}
 
+	public function access($rut, $password, $tipo){
+
+		$this->db->select('p.nombre, p.apellido, p.tb_tipo_usuario_id');
+		
+		$this->db->from('tb_persona p');
+
+		$this->db->where('p.rut', 					$rut);
+		$this->db->where('p.clave', 				$password);
+		$this->db->where('p.tb_tipo_usuario_id', 	$tipo);
+
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+        	return $query->row();
+		}else{
+			return false;
+		}
+
+	}
+
 	// obtiene todos los usuarios
 	public function getUser($id = false){
   

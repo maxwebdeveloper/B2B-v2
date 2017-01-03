@@ -103,7 +103,7 @@
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane active" id="detalle_general">
                                     
-                                            <table class="table table-hover " style="margin-top: 15px;">
+                                            <table class="table table-hover table-striped " style="margin-top: 15px;">
                                                 <tbody>
                                                     <tr>
                                                         <th style="border-top: 1px solid transparent;">Rut</th>
@@ -145,7 +145,7 @@
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="detalle_gestion">
                                             
-                                            <table class="table table-hover" style="margin-top: 15px;">
+                                            <table class="table table-hover table-striped" style="margin-top: 15px;">
                                                 <tbody>
 
                                                     <tr>
