@@ -21,8 +21,6 @@ class Main extends CI_Controller {
 
 	}
 
-	
-
 	public function loadProvincia(){
 		
 		$id_region = $this->input->post('region_id');

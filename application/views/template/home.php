@@ -5,6 +5,8 @@
             <h1>Backoffice B2B</h1>
             
             <?= $_SESSION['username']; ?>
+
+            
             
             
         </div>

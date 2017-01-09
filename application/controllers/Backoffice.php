@@ -11,82 +11,19 @@ class Backoffice extends CI_Controller {
         $this->load->model('main_model');
         $this->load->model('usuarios_model');
 
+        if(!$this->session->userdata('username')){
+            redirect(base_url().'acceso/', 'location');      
+        }
+
 	}
 
     public function index(){
 
-        $data['title_page'] = 'Backoffice | Acceso';
-
-        $this->load->view('Backoffice/header', $data);
-        $this->load->view('Backoffice/login');
-        $this->load->view('Backoffice/footer');
-        echo $_SESSION['username'];
-        echo $_SESSION['tipo'];
-
-    }
-    public function login(){
-
-        // destruir un sesion de usuario
-        // $this->session->sess_destroy();
-
-        $this->form_validation->set_rules('rut', 'Rut', 'trim|required|min_length[9]|max_length[10]');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]|max_length[45]');
-
-        // seteamos los mensajes de error
-        $this->form_validation->set_message('required', 'El campo %s es requerido');
-        $this->form_validation->set_message('min_length', 'El campo %s no puede tener menos de %s caracteres.');
-        $this->form_validation->set_message('max_length', 'El campo %s no puede tener más de %s caracteres.');
-
-        if ($this->form_validation->run() == FALSE) {
-            
-            $this->index();
-
-        } else {
-
-            $rut        = trim($this->input->post('rut'));
-            $password   = trim($this->input->post('password'));
-
-            $usuario = $this->usuarios_model->access($rut, $password, 1);
-
-            // si el usuario no existe en la db nmostramos  un mensje
-            // de lo contrario creamos una  variable de sesion y
-            // redireccionamos a la pagina de inicio del backofice
-            // ademas debemos preguntar que tipo de usuario es el que
-            // ha iniciado sesion si no es un administrador no debe
-            // poder ingresar al backoffice pero lo podemos
-            // redireccionar a l pagina de b2b por defecto para crear
-            // fichas
-            // ademas si existe una sesion activa, se debera redirecionar por defecto a la pagina de home del backoffice
-            
-            if ($usuario != false) {
-
-                echo "Usuario existe";
-
-                // creamos la sesion de administrador
-                $datos_sesion = array(
-                    'username'  => $usuario->nombre.' '.$usuario->apellido,
-                    'tipo' => $usuario->tb_tipo_usuario_id
-                );
-
-                $this->session->set_userdata($datos_sesion);
-
-            } else {
-
-                echo "Usuario no existe";
-            
-            }
-            
-        }
-
-    }
-
-    public function home(){
-
         $data['title_page'] = 'Backoffice | Home';
 
-		$this->load->view('Backoffice/header', $data);
-		$this->load->view('Backoffice/Home');
-		$this->load->view('Backoffice/footer');
+        $this->load->view('Backoffice/header', $data);
+        $this->load->view('Backoffice/Home');
+        $this->load->view('Backoffice/footer');
 
     }
 

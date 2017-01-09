@@ -25,7 +25,7 @@ $password = array(
 	);
 
 ?>
-<?php echo set_value('rut'); ?>
+
 <div class="container margin-top-100">
     <div class="row">
         <div class="col-md-offset-4 col-md-4">
@@ -36,7 +36,7 @@ $password = array(
             	</div>
             	<div class="panel-body">
             		<img src="http://190.151.18.4/espol/remuneracion/img/logo.png" class="center-block" style="height: 65px; padding-bottom: 15px;">
-            		<form action="<?= base_url(); ?>backoffice/login" method="post" class="" autocomplete="off">
+            		<form action="<?= base_url(); ?>acceso/logIn" method="post" class="" autocomplete="off">
             			
             			<div class="container-fluid">
             				<div class="row">

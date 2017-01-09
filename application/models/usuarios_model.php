@@ -10,15 +10,15 @@ class Usuarios_model extends CI_Model {
 
 	}
 
-	public function access($rut, $password, $tipo){
+	public function access($rut, $password, $tipo = false){
 
-		$this->db->select('p.nombre, p.apellido, p.tb_tipo_usuario_id');
+		$this->db->select('p.id, p.nombre, p.apellido, p.tb_tipo_usuario_id');
 		
 		$this->db->from('tb_persona p');
 
 		$this->db->where('p.rut', 					$rut);
 		$this->db->where('p.clave', 				$password);
-		$this->db->where('p.tb_tipo_usuario_id', 	$tipo);
+		// $this->db->where('p.tb_tipo_usuario_id', 	$tipo);
 
 		$query = $this->db->get();
 
@@ -67,6 +67,34 @@ class Usuarios_model extends CI_Model {
 			}
 			
 		}
+
+	}
+	
+	// obtiene todos los usuarios
+	public function getUser_by_tipo($tb_tipo_usuario_id){
+  
+		$this->db->select("p.id, p.rut, CONCAT(p.nombre, ' ', p.apellido) AS nombre_completo, p.direccion, p.fono, p.correo, p.estado, e.nombre as empresa, t.nombre as tipo");
+		$this->db->select('e.nombre AS empresa, t.nombre AS tipo');
+		$this->db->select('c.comuna, c.id as id_comuna, pro.provincia, pro.id as id_provincia, r.region, r.id as id_region');
+
+		$this->db->from('tb_persona p');
+
+		$this->db->join('tb_empresa e', 		'e.id 	= p.tb_empresa_id');
+		$this->db->join('tb_tipo_usuario t', 	't.id 	= p.tb_tipo_usuario_id');
+		$this->db->join('tb_comuna c', 			'c.id 	= p.tb_comuna_id');
+		$this->db->join('tb_provincia pro', 	'pro.id = c.tb_provincia_id');
+		$this->db->join('tb_region r', 			'r.id 	= pro.tb_region_id');
+
+		$this->db->where('p.tb_tipo_usuario_id', $tb_tipo_usuario_id);
+
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+	    	return $query->result();
+		}else{
+			return false;
+		}
+			
 
 	}
 

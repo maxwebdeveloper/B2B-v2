@@ -23,6 +23,8 @@
     </head>
     <body id="main" data-bs="<?= base_url(); ?>">
     
+    <?php if ($title_page != 'B2B | Acceso'): ?>
+            
 
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -40,7 +42,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="<?= base_url(); ?>backoffice/home">Home</a></li>
+                    <li><a href="<?= base_url(); ?>backoffice/">Home</a></li>
                     <li><a href="<?= base_url(); ?>backoffice/mantenedor">Mantenedor</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
@@ -52,13 +54,14 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Max Llaupi <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $_SESSION['username']; ?> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Mi Perfil</a></li>
-                            <li><a href="#">Cerrar Sesión</a></li>
+                            <li><a href="<?= base_url(); ?>">Mi Perfil</a></li>
+                            <li><a href="<?= base_url(); ?>acceso/logOut">Cerrar Sesión</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+    <?php endif ?>    
