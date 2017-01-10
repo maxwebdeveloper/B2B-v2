@@ -33,6 +33,7 @@ class Ficha extends CI_Controller {
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::: proveedor :::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	
 	public function crear_ficha_proveedor(){
 
 		$datos = $this->datos_usuario();
@@ -42,7 +43,6 @@ class Ficha extends CI_Controller {
 
 		$data['formato_consumo'] = $this->main_model->getFormatoConsumo();
 		$data['comprador'] 		 = $this->usuarios_model->getUser_by_tipo(3);
-		$data['jefe_producto']	 = $this->usuarios_model->getUser_by_tipo(4);
 
 		$this->load->view('template/header', $data);
 		$this->load->view('Ficha/proveedor/crear_ficha_evaluacion');
@@ -81,7 +81,7 @@ class Ficha extends CI_Controller {
 		$this->fichas_model->tb_tipo_estado_id 	= 1;
 
 		$this->fichas_model->id_proveedor 		= $this->session->userdata('id_usuario');
-		$this->fichas_model->id_jefe_producto 	= $this->input->post('jefe_producto');
+		// $this->fichas_model->id_jefe_producto 	= $this->input->post('jefe_producto');
 		$this->fichas_model->id_comprador 		= $this->input->post('comprador');
 
 		$result = $this->fichas_model->add();
@@ -114,7 +114,7 @@ class Ficha extends CI_Controller {
 
 		if ($this->uri->segment(3) === null){
 
-            redirect(base_url().'usuarios', 'location');
+            redirect(base_url().'ficha', 'location');
 
         }else{
 
@@ -124,7 +124,7 @@ class Ficha extends CI_Controller {
 			$data['datos'] = $datos;
 
 			$this->fichas_model->id_ficha = $this->uri->segment(3);
-			$data['ficha'] = $this->fichas_model->getFichaProveedor();
+			$data['ficha'] = $this->fichas_model->detalleFichaProveedor();
 
 
 			$this->load->view('template/header', $data);
@@ -135,26 +135,194 @@ class Ficha extends CI_Controller {
 		
 	}
 
+	// actualiza el estado del proveedor a enviado
+	public function updateEstadoProveedor(){
+
+		$id_ficha = $this->input->post('ficha_id');
+		
+		$this->fichas_model->estado_proveedor = 1;
+		$this->fichas_model->id_ficha = $id_ficha;
+
+		if ($this->fichas_model->updateEstadoProveedor() == 1) {
+			echo json_encode("Actualizado correctamente");
+		} else {
+			echo json_encode("error al intentar actualizar");
+		}
+		
+
+	}
+
+	public function eliminarFichaProveedor(){
+
+		$id_ficha = $this->input->post('ficha_id');
+		
+		$this->fichas_model->id_ficha = $id_ficha;
+
+		if ($this->fichas_model->eliminarFichaProveedor() == 1) {
+			echo json_encode("Elimado correctamente");
+		} else {
+			echo json_encode("error al intentar eliminar");
+		}
+
+	}
+
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::: comprador :::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	
 	public function crear_ficha_comprador(){
+		
+		if ($this->uri->segment(3) === null){
+
+            redirect(base_url().'ficha', 'location');
+
+        }else{
+
+			$datos = $this->datos_usuario();
+
+			$data['title_page'] = 'B2B | Crear Ficha '.$datos['title_page'];
+			$data['datos'] = $datos;
+
+			$this->fichas_model->id_ficha = $this->uri->segment(3);
+			$data['ficha_proveedor'] = $this->fichas_model->detalleFichaProveedor();
+			$data['jefe_producto']	 = $this->usuarios_model->getUser_by_tipo(4);
+
+			$this->load->view('template/header', $data);
+			$this->load->view('Ficha/comprador/editar_ficha_evaluacion');
+			$this->load->view('template/footer');
+
+        }
 		
 	}
 	
 	public function ver_ficha_comprador(){
 		
+		$datos = $this->datos_usuario();
+
+		$data['title_page'] = 'B2B Comprador | Ver Ficha '.$datos['title_page'];
+		$data['datos'] 		= $datos;
+
+		$this->fichas_model->id_comprador= $this->session->userdata('id_usuario');
+		$data['fichas'] 	= $this->fichas_model->getListCM();
+
+
+		$this->load->view('template/header', $data);
+		$this->load->view('Ficha/comprador/ver_ficha_evaluacion');
+		$this->load->view('template/footer');
+
 	}
 
+	public function detalle_ficha_comprador(){
+
+		if ($this->uri->segment(3) === null){
+
+            redirect(base_url().'ficha', 'location');
+
+        }else{
+
+			$datos = $this->datos_usuario();
+
+			$data['title_page'] = 'B2B | Crear Ficha '.$datos['title_page'];
+			$data['datos'] = $datos;
+
+			$this->fichas_model->id_ficha = $this->uri->segment(3);
+			$data['ficha'] = $this->fichas_model->detalleFichaComprador();
+
+
+			$this->load->view('template/header', $data);
+			$this->load->view('Ficha/comprador/detalle_ficha_evaluacion');
+			$this->load->view('template/footer');
+        }
+
+		
+	}
+
+	public function update_ficha_comprador(){
+
+		$this->fichas_model->id_jefe_producto 				= $this->input->post('jefe_producto');
+		$this->fichas_model->estado_jefe_producto 			= 0;
+		$this->fichas_model->margen_espol 					= $this->input->post('margen_espol');
+		$this->fichas_model->margen_estimado_cliente 		= $this->input->post('margen_estimado_cliente');
+		$this->fichas_model->pvp_proyectado 				= $this->input->post('pvp_proyectado');
+		$this->fichas_model->estimacion_m3 					= $this->input->post('estimacion_m3');
+		$this->fichas_model->plazo_pago_proveedor 			= $this->input->post('plazo_pago_proveedor');
+		$this->fichas_model->escala_descuento_ipad 			= $this->input->post('escala_descuento_ipad');
+		$this->fichas_model->negociacion_especial_merma 	= $this->input->post('negociacion_especial_merma');
+		$this->fichas_model->negociacion_devoluciones 		= $this->input->post('negociacion_devoluciones');
+		$this->fichas_model->aportes_especiales_proveedor 	= $this->input->post('aportes_especiales_proveedor');
+		$this->fichas_model->estado_comprador 				= 1;
+		$this->fichas_model->id_ficha 						= $this->input->post('id_ficha');
+
+		$result = $this->fichas_model->updateComprador();
+
+		if($result == 1){
+			echo "Ficha actualizada correctamente";
+		}else{
+			echo "Error al intentar actualizar";
+		}
+		
+	}
+
+	// actualiza el estado del comprador a enviado (2)
+	public function updateEstadoComprador(){
+
+		$id_ficha = $this->input->post('ficha_id');
+		
+		$this->fichas_model->estado_comprador = 2;
+		$this->fichas_model->id_ficha = $id_ficha;
+
+		if ($this->fichas_model->updateEstadoComprador() == 1) {
+			echo json_encode("Actualizado correctamente");
+		} else {
+			echo json_encode("error al intentar actualizar");
+		}
+		
+
+	}
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::: jefe producto :::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	
 	public function crear_ficha_jp(){
 		
+
+		if ($this->uri->segment(3) === null){
+
+            redirect(base_url().'ficha', 'location');
+
+        }else{
+
+			$datos = $this->datos_usuario();
+
+			$data['title_page'] = 'B2B | Crear Ficha '.$datos['title_page'];
+			$data['datos'] = $datos;
+
+			$this->fichas_model->id_ficha = $this->uri->segment(3);
+			$data['ficha_proveedor'] = $this->fichas_model->detalleFichaProveedor();
+
+			$this->load->view('template/header', $data);
+			$this->load->view('Ficha/jefe_producto/editar_ficha_evaluacion');
+			$this->load->view('template/footer');
+
+        }
+
 	}
 
 	public function ver_ficha_jp(){
 		
+		$datos = $this->datos_usuario();
+
+		$data['title_page'] = 'B2B Jefe Producto | Ver Ficha '.$datos['title_page'];
+		$data['datos'] 		= $datos;
+
+		$this->fichas_model->id_jefe_producto = $this->session->userdata('id_usuario');
+		$data['fichas'] 	= $this->fichas_model->getListJP();
+
+
+		$this->load->view('template/header', $data);
+		$this->load->view('Ficha/jefe_producto/ver_ficha_evaluacion');
+		$this->load->view('template/footer');
+
 	}
 
 	public function datos_usuario(){

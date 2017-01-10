@@ -22,7 +22,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body id="" class="margin-top-100" data-bs="<?= base_url(); ?>">
+    <body id="general" class="margin-top-100" data-bs="<?= base_url(); ?>">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">

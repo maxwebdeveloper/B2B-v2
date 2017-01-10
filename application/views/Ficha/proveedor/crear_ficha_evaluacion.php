@@ -11,21 +11,9 @@
 
 
             <form method="post" action="<?= base_url(); ?>ficha/insert_ficha_proveedor" class="">
+				
 				<div class="row">
-					<div class="col-md-6">
-						
-						<!-- Jefe Producto -->
-		            	<div class="form-group">
-		            		<label class="label-control">Jefe Producto</label>
-		            		<select name="jefe_producto" id="jefe_producto" class="form-control" required="">
-		        				<?php foreach ($jefe_producto as $j): ?>
-		        					<option value="<?= $j->id; ?>"><?= $j->nombre_completo; ?></option>
-		        				<?php endforeach ?>
-							</select>
-		            	</div>
-
-					</div>
-					<div class="col-md-6">
+					<div class="col-md-3">
 						
 						<!-- Comprador -->
 		            	<div class="form-group">
@@ -38,12 +26,7 @@
 		            	</div>
 
 					</div>
-					<div class="col-md-4"></div>
-
-				</div>
-				<hr>
-				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-3">
 						
 						<!-- Nombre Producto -->
 		            	<div class="form-group">
@@ -90,7 +73,7 @@
 						<!-- cantidad -->
 		            	<div class="form-group">
 		            		<label class="label-control">Cantidad</label>
-		        			<input type="number" min="0" name="cantidad" id="cantidad" class="form-control" maxlength="20" placeholder="Ingrese " required="">
+		        			<input type="number" min="0" name="cantidad" id="cantidad" class="form-control" maxlength="20" placeholder="Ingrese la cantidad" required="">
 		            	</div>
 
 					</div>
