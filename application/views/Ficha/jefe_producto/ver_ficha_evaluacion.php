@@ -2,20 +2,20 @@
     <div class="row">
         <div class="col-md-12">
                
-            
             <h1>Lista de Fichas de Evaluación</h1>
             <hr>
             <?php if ($fichas != false): ?>
 
-                <table id="tb_fichas" class="table table-hover ">
+                <table id="tb_fichas" class="table table-hover">
                 	<thead>
                 		<tr>
                 			<th>ID</th>
                 			<th>Producto</th>
-                            <th>Fecha de Cración</th>
-                			<th>Proveedor</th>
+                            <th>Fecha de Creación</th>
+                            <th>Proveedor</th>
+                            <th>Comprador</th>
                             <th>Estado</th>
-                			<th>Estado Solicitud</th>
+                			<th>Estado SubGerencia</th>
                 			<th>Acción</th>
                 		</tr>
                 	</thead>
@@ -25,34 +25,105 @@
                 			<td><?= $f->id; ?></td>
                 			<td><?= $f->nombre_producto; ?></td>
                             <td><?= $f->fecha_creacion; ?></td>
-                			<td><?= $f->proveedor; ?></td>
+                            <td><?= $f->proveedor; ?></td>
+                			<td><?= $f->comprador; ?></td>
 
-                            <?php if ($f->estado_jefe_producto == 0): ?>
-                                <td><span class="label label-warning">Sin Revisar</span></td>
-                            <?php else: ?>
-                                <td><span class="label label-success">Aprobada</span></td>
-                            <?php endif ?>
+                            <?php
+                            
+                            switch ($f->estado_jefe_producto) {
+                                case 0:
+                                    // sin revisar
+                                    echo '<td><span class="label label-primary">No Revisado</span></td>';
+                                    break;
+                                case 1:
+                                    // revisado
+                                    echo '<td><span class="label label-default">No Enviado</span></td>';
+                                    break;
+                                case 2:
+                                    // enviado a jp
+                                    echo '<td><span class="label label-success">Enviado</span></td>';
+                                    break;
+                            }
+                            switch ($f->estado_sub_gerencia) {
+                                case 0:
+                                    // sin revisar
+                                    echo '<td><span class="label label-primary">No Revisado</span></td>';
+                                    break;
+                                case 1:
+                                    // revisado
+                                    echo '<td><span class="label label-default">No Enviado</span></td>';
+                                    break;
+                                case 2:
+                                    // enviado a jp
+                                    echo '<td><span class="label label-success">Enviado</span></td>';
+                                    break;
+                            }
+                            ?>
+
                             <td class="text-center">-</td>
                 			<td>
 
-                                <?php if ($f->estado_proveedor != 0): ?>
-                                    <button type="button" class="btn btn-xs btn-success btn_enviar" title="Enviar para evaluación"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                <?php 
 
-                                    <a href="<?= base_url(); ?>ficha/detalle_ficha_proveedor/<?= $f->id; ?>" class="btn btn-xs btn-info" title="Detalle">
+                                switch ($f->estado_jefe_producto) {
+                                    case 0:
+                                        // sin revisar 
+                                        
+                                ?>
+                                    <!-- btn ver detalle -->
+                                    <a href="<?= base_url(); ?>ficha/detalle_ficha_jp/<?= $f->id; ?>" class="btn btn-xs btn-info" title="Detalle">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
+
+                                    <!-- btn editar -->
                                     <a href="<?= base_url(); ?>ficha/crear_ficha_jp/<?= $f->id; ?>" class="btn btn-xs btn-primary" title="Editar">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </a>
 
-                                    <button type="button" class="btn btn-xs btn-danger btn_eliminar" title="Eliminar">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <!-- btn rechazar -->
+                                    <button type="button" class="btn btn-xs btn-danger btn_rechazar_jp" title="Rechazar Ficha">
+                                        <i class="fa fa-ban" aria-hidden="true"></i>
                                     </button>
-                                <?php else: ?>
-                                    <a href="<?= base_url(); ?>ficha/detalle_ficha_proveedor/<?= $f->id; ?>" class="btn btn-xs btn-info" title="Detalle">
+
+                                 <?php
+                                        break;
+                                    case 1:
+                                        // revisado
+                                 ?>
+                                    <!-- btn enviar a jp -->
+                                    <button type="button" class="btn btn-xs btn-success btn_enviar_jp" title="Enviar para evaluación a JP">
+                                        <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                                    </button>
+
+                                    <!-- btn ver detalle -->
+                                    <a href="<?= base_url(); ?>ficha/detalle_ficha_jp/<?= $f->id; ?>" class="btn btn-xs btn-info" title="Detalle">
                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
-                                <?php endif ?>
+
+                                    <!-- btn editar -->
+                                    <!-- <a href="<?= base_url(); ?>ficha/crear_ficha_jp/<?= $f->id; ?>" class="btn btn-xs btn-primary" title="Editar">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </a> -->
+
+                                    <!-- btn rechazar -->
+                                    <button type="button" class="btn btn-xs btn-danger btn_rechazar_jp" title="Rechazar Ficha">
+                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                    </button>
+
+                                 <?php
+                                        break;
+                                    case 2:
+                                        // enviado a jp
+                                ?>
+                                    <!-- btn ver detalle -->
+                                    <a href="<?= base_url(); ?>ficha/detalle_ficha_jp/<?= $f->id; ?>" class="btn btn-xs btn-info" title="Detalle">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                 <?php
+                                        break;
+                                }
+
+                                ?>
                 			</td>
                 		</tr>
                 		<?php endforeach ?>

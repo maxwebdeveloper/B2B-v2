@@ -76,6 +76,10 @@ class Acceso extends CI_Controller {
                             // proveedor
                             redirect(base_url().'ficha/', 'location');
                         break;
+                    case 6:
+                            // proveedor
+                            redirect(base_url().'ficha/', 'location');
+                        break;
                     
                     default:
                             echo "No existe un patron definido para su perfil.";

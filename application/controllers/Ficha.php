@@ -42,7 +42,7 @@ class Ficha extends CI_Controller {
 		$data['datos'] = $datos;
 
 		$data['formato_consumo'] = $this->main_model->getFormatoConsumo();
-		$data['comprador'] 		 = $this->usuarios_model->getUser_by_tipo(3);
+		$data['comprador'] 		 = $this->usuarios_model->getUser_by_tipo(5);
 
 		$this->load->view('template/header', $data);
 		$this->load->view('Ficha/proveedor/crear_ficha_evaluacion');
@@ -78,10 +78,9 @@ class Ficha extends CI_Controller {
 		$this->fichas_model->beneficios 		= $this->input->post('beneficios');
 		$this->fichas_model->ppd 				= $this->input->post('ppd');
 		$this->fichas_model->precio_lista 		= $this->input->post('precio_lista');
-		$this->fichas_model->tb_tipo_estado_id 	= 1;
+		$this->fichas_model->tb_tipo_estado_id 	= 0;
 
 		$this->fichas_model->id_proveedor 		= $this->session->userdata('id_usuario');
-		// $this->fichas_model->id_jefe_producto 	= $this->input->post('jefe_producto');
 		$this->fichas_model->id_comprador 		= $this->input->post('comprador');
 
 		$result = $this->fichas_model->add();
@@ -140,7 +139,10 @@ class Ficha extends CI_Controller {
 
 		$id_ficha = $this->input->post('ficha_id');
 		
+
+		$this->fichas_model->tb_tipo_estado_id = 1;
 		$this->fichas_model->estado_proveedor = 1;
+		$this->fichas_model->estado_comprador = 0;
 		$this->fichas_model->id_ficha = $id_ficha;
 
 		if ($this->fichas_model->updateEstadoProveedor() == 1) {
@@ -240,7 +242,7 @@ class Ficha extends CI_Controller {
 	public function update_ficha_comprador(){
 
 		$this->fichas_model->id_jefe_producto 				= $this->input->post('jefe_producto');
-		$this->fichas_model->estado_jefe_producto 			= 0;
+		// $this->fichas_model->estado_jefe_producto 			= 0;
 		$this->fichas_model->margen_espol 					= $this->input->post('margen_espol');
 		$this->fichas_model->margen_estimado_cliente 		= $this->input->post('margen_estimado_cliente');
 		$this->fichas_model->pvp_proyectado 				= $this->input->post('pvp_proyectado');
@@ -250,6 +252,7 @@ class Ficha extends CI_Controller {
 		$this->fichas_model->negociacion_especial_merma 	= $this->input->post('negociacion_especial_merma');
 		$this->fichas_model->negociacion_devoluciones 		= $this->input->post('negociacion_devoluciones');
 		$this->fichas_model->aportes_especiales_proveedor 	= $this->input->post('aportes_especiales_proveedor');
+		
 		$this->fichas_model->estado_comprador 				= 1;
 		$this->fichas_model->id_ficha 						= $this->input->post('id_ficha');
 
@@ -268,6 +271,9 @@ class Ficha extends CI_Controller {
 
 		$id_ficha = $this->input->post('ficha_id');
 		
+		$this->fichas_model->fecha_aprobacion_comprador = Date('Y-m-d h:i:s');
+		$this->fichas_model->tb_tipo_estado_id = 2;
+		$this->fichas_model->estado_jefe_producto = 0;
 		$this->fichas_model->estado_comprador = 2;
 		$this->fichas_model->id_ficha = $id_ficha;
 
@@ -279,6 +285,7 @@ class Ficha extends CI_Controller {
 		
 
 	}
+
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::: jefe producto :::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -298,7 +305,7 @@ class Ficha extends CI_Controller {
 			$data['datos'] = $datos;
 
 			$this->fichas_model->id_ficha = $this->uri->segment(3);
-			$data['ficha_proveedor'] = $this->fichas_model->detalleFichaProveedor();
+			$data['ficha'] = $this->fichas_model->detalleFichaJP();
 
 			$this->load->view('template/header', $data);
 			$this->load->view('Ficha/jefe_producto/editar_ficha_evaluacion');
@@ -325,6 +332,75 @@ class Ficha extends CI_Controller {
 
 	}
 
+	public function detalle_ficha_jp(){
+
+		if ($this->uri->segment(3) === null){
+
+            redirect(base_url().'ficha', 'location');
+
+        }else{
+
+			$datos = $this->datos_usuario();
+
+			$data['title_page'] = 'B2B | Detelle Ficha '.$datos['title_page'];
+			$data['datos'] = $datos;
+
+			$this->fichas_model->id_ficha = $this->uri->segment(3);
+			$data['ficha'] = $this->fichas_model->detalleFichaJP();
+
+
+			$this->load->view('template/header', $data);
+			$this->load->view('Ficha/jefe_producto/detalle_ficha_evaluacion');
+			$this->load->view('template/footer');
+        }
+
+	}
+
+	public function update_ficha_jp(){
+
+
+		$this->fichas_model->estado_jefe_producto 	= 1;
+		$this->fichas_model->precio_competencia 	= $this->input->post('precio_competencia');
+		$this->fichas_model->rol_portafolio 		= $this->input->post('rol_portafolio');
+		$this->fichas_model->volumen 				= $this->input->post('volumen');
+		$this->fichas_model->expancion_de_linea 	= $this->input->post('expancion_de_linea');
+		$this->fichas_model->desarrollo_proveedor 	= $this->input->post('desarrollo_proveedor');
+		$this->fichas_model->comentario 			= $this->input->post('comentario');
+		$this->fichas_model->id_ficha 				= $this->input->post('id_ficha');
+
+		$result = $this->fichas_model->updateJP();
+		
+		if($result == 1){
+			echo "Ficha actualizada correctamente";
+		}else{
+			echo "Error al intentar actualizar";
+		}
+		
+
+	}
+
+	public function updateEstadoJP(){
+
+		$id_ficha = $this->input->post('ficha_id');
+		
+		$this->fichas_model->fecha_aprobacion_jp  	= Date('Y-m-d h:i:s');
+		$this->fichas_model->tb_tipo_estado_id 		= 3;
+		$this->fichas_model->estado_jefe_producto 	= 2;
+		$this->fichas_model->estado_sub_gerencia 	= 2;
+		$this->fichas_model->id_ficha = $id_ficha;
+
+		if ($this->fichas_model->updateEstadoJP() == 1) {
+			echo json_encode("Actualizado correctamente");
+		} else {
+			echo json_encode("error al intentar actualizar");
+		}
+		
+
+	}
+	
+	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	// ::::::::::::::::::::::::::::::::::: Datos usuario :::::::::::::::::::::::::::::::::::
+	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::	
 	public function datos_usuario(){
 
 		$tipo = $this->session->userdata('tipo');
@@ -336,11 +412,11 @@ class Ficha extends CI_Controller {
 	                $ruta_crear = base_url().'ficha/crear_ficha_gv';
 	                $ruta_ver   = base_url().'ficha/ver_ficha_gv';
 	            break;
-	        case 3: 
-	                // comprador
-	                $title_page = 'Comprador';
-	                $ruta_crear = base_url().'ficha/crear_ficha_comprador';
-	                $ruta_ver   = base_url().'ficha/ver_ficha_comprador';
+	        case 3:
+	                // Sub gerencia de ventas
+	                $title_page = 'Sub Gerencia Ventas';
+	                $ruta_crear = base_url().'ficha/crear_ficha_sgv';
+	                $ruta_ver   = base_url().'ficha/ver_ficha_sgv';
 	            break;
 	        case 4:
 	                // jefe producto
@@ -348,7 +424,13 @@ class Ficha extends CI_Controller {
 	                $ruta_crear = base_url().'ficha/crear_ficha_jp';
 	                $ruta_ver   = base_url().'ficha/ver_ficha_jp';
 	            break;
-	        case 5:
+	        case 5: 
+	                // comprador
+	                $title_page = 'Comprador';
+	                $ruta_crear = base_url().'ficha/crear_ficha_comprador';
+	                $ruta_ver   = base_url().'ficha/ver_ficha_comprador';
+	            break;
+	        case 6:
 	                // proveedor
 	                $title_page = 'Proveedor';
 	                $ruta_crear = base_url().'ficha/crear_ficha_proveedor';

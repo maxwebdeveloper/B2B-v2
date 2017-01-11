@@ -5,7 +5,7 @@ class Fichas_model extends CI_Model {
 
 	public $id_ficha;
 	
-	// ingresados por el proveedor
+	// :::::::::::::::::::::::::::::::::::::: ingresados por el proveedor ::::::::::::::::::::::::::::::::::::::
 	
 	public $ruta_img;
 	public $nombre;
@@ -41,9 +41,8 @@ class Fichas_model extends CI_Model {
 	public $var_4;
 	public $var_5;
 
-	public $tb_tipo_estado_id;
-
-	// ingresados por el comprador
+	// :::::::::::::::::::::::::::::::::::::: ingresados por el comprador ::::::::::::::::::::::::::::::::::::::
+	
 	public $estado_comprador; 
 
 	public $estado_jefe_producto;
@@ -56,6 +55,28 @@ class Fichas_model extends CI_Model {
 	public $negociacion_especial_merma;
 	public $negociacion_devoluciones;
 	public $aportes_especiales_proveedor;
+
+	// :::::::::::::::::::::::::::::::::::: ingresados por el jefe producto ::::::::::::::::::::::::::::::::::::
+
+	public $precio_competencia;
+	public $rol_portafolio;
+	public $volumen;
+	public $expancion_de_linea;
+	public $desarrollo_proveedor;
+	public $comentario;
+	public $id_subgerencia;
+	public $id_gerencia;
+
+	// :::::::::::::::::::::::::::::::::
+	public $fecha_creacion;
+    public $fecha_aprobacion_comprador;
+    public $fecha_aprobacion_jp;
+    public $fecha_aprobacion_subgerencia;
+    public $fecha_aprobacion_gerencia;
+    public $fecha_rechazo;
+
+
+	public $tb_tipo_estado_id;
 
 	public function __construct(){
 
@@ -102,8 +123,10 @@ class Fichas_model extends CI_Model {
 
 	public function get($individual = false){
 		
-		$this->db->select('*');
-		$this->db->from('mv_ficha_evaluacion');
+		$this->db->select('f.id, f.ruta_img, f.nombre_producto, f.marca_producto, f.cantidad, f.contenido, f.tb_formato_consumo_id, f.num_descuento, f.descuento_1, f.descuento_2, f.descuento_3, f.descuento_4, f.descuento_5, f.num_variedades, f.variedad_1, f.variedad_2, f.variedad_3, f.variedad_4, f.variedad_5, f.atributos, f.beneficios, f.ppd, f.precio_lista, f.observacion_jp, f.id_proveedor, f.estado_proveedor, f.id_comprador, f.estado_comprador, f.fecha_creacion, te.nombre AS estado_solicitud');
+		
+		$this->db->from('mv_ficha_evaluacion f');
+		$this->db->join('tb_tipo_estado te', 'te.id = f.tb_tipo_estado_id');
 
 		if ($individual != false) {
 
@@ -128,7 +151,6 @@ class Fichas_model extends CI_Model {
 			
 		}
 		
-
 	}
 
 
@@ -157,7 +179,10 @@ class Fichas_model extends CI_Model {
 
 	public function updateEstadoProveedor(){
 
-		$this->db->set('estado_proveedor', $this->estado_proveedor);
+
+		$this->db->set('tb_tipo_estado_id', $this->tb_tipo_estado_id);
+		$this->db->set('estado_proveedor', 	$this->estado_proveedor);
+		$this->db->set('estado_comprador', 	$this->estado_comprador);
 		$this->db->where('id', $this->id_ficha);
 		return $this->db->update('mv_ficha_evaluacion');
 		
@@ -176,8 +201,9 @@ class Fichas_model extends CI_Model {
 	
 	public function getListCM(){
 		
-		$this->db->select("f.*, (select CONCAT(tb_persona.nombre, ' ', tb_persona.apellido) from tb_persona WHERE tb_persona.id = f.id_proveedor) as proveedor");
+		$this->db->select("f.*, (select CONCAT(tb_persona.nombre, ' ', tb_persona.apellido) from tb_persona WHERE tb_persona.id = f.id_proveedor) as proveedor, te.nombre AS estado_solicitud");
 		$this->db->from('mv_ficha_evaluacion f');
+		$this->db->join('tb_tipo_estado te', 'te.id = f.tb_tipo_estado_id');
 		$this->db->where('f.id_comprador', $this->id_comprador);
 		$this->db->where('f.estado_proveedor', 1);
 
@@ -205,8 +231,6 @@ class Fichas_model extends CI_Model {
 		}else{
 			return false;
 		}
-		
-
 
 	}
 
@@ -228,12 +252,14 @@ class Fichas_model extends CI_Model {
 		$this->db->where('id', $this->id_ficha);
 		return $this->db->update('mv_ficha_evaluacion');
 
-		
 	}
 
 	public function updateEstadoComprador(){
 
-		$this->db->set('estado_comprador', $this->estado_comprador);
+		$this->db->set('tb_tipo_estado_id', 			$this->tb_tipo_estado_id);
+		$this->db->set('estado_jefe_producto', 			$this->estado_jefe_producto);
+		$this->db->set('estado_comprador', 				$this->estado_comprador);
+		$this->db->set('fecha_aprobacion_comprador', 	$this->fecha_aprobacion_comprador);
 		$this->db->where('id', $this->id_ficha);
 		return $this->db->update('mv_ficha_evaluacion');
 		
@@ -246,7 +272,7 @@ class Fichas_model extends CI_Model {
 	
 	public function getListJP(){
 		
-		$this->db->select("f.*, (select CONCAT(tb_persona.nombre, ' ', tb_persona.apellido) from tb_persona WHERE tb_persona.id = f.id_proveedor) as proveedor");
+		$this->db->select("f.*, (select CONCAT(tb_persona.nombre, ' ', tb_persona.apellido) from tb_persona WHERE tb_persona.id = f.id_proveedor) as proveedor, (select CONCAT(tb_persona.nombre, ' ', tb_persona.apellido) from tb_persona WHERE tb_persona.id = f.id_comprador) as comprador");
 		$this->db->from('mv_ficha_evaluacion f');
 		$this->db->where('f.id_jefe_producto', $this->id_jefe_producto);
 		$this->db->where('f.estado_proveedor', 1);
@@ -262,6 +288,56 @@ class Fichas_model extends CI_Model {
 
 	}
 
+	public function detalleFichaJP(){
+
+		$this->db->select("f.id, f.ruta_img, f.nombre_producto, f.marca_producto, f.cantidad, f.contenido, f.num_descuento, f.descuento_1, f.descuento_1, f.descuento_2, f.descuento_3, f.descuento_4, f.descuento_5, f.num_variedades, f.variedad_1, f.variedad_2, f.variedad_3, f.variedad_4, f.variedad_5, f.atributos, f.beneficios, f.ppd, f.precio_lista, f.fecha_creacion, f.estado_proveedor, fc.nombre AS formato_consumo, (select CONCAT(tb_persona.nombre, ' ', tb_persona.apellido) from tb_persona WHERE tb_persona.id = f.id_proveedor) as proveedor, (select CONCAT(tb_persona.nombre, ' ', tb_persona.apellido) from tb_persona WHERE tb_persona.id = f.id_jefe_producto) as jefe_producto, (select CONCAT(tb_persona.nombre, ' ', tb_persona.apellido) from tb_persona WHERE tb_persona.id = f.id_comprador) as comprador, f.margen_espol, f.margen_estimado_cliente, f.pvp_proyectado, f.estimacion_m3, f.plazo_pago_proveedor, f.escala_descuento_ipad, f.negociacion_especial_merma, f.negociacion_devoluciones, f.aportes_especiales_proveedor,
+			f.precio_competencia, f.rol_portafolio, f.volumen, f.expancion_de_linea, f.desarrollo_proveedor, f.comentario");
+		$this->db->from('mv_ficha_evaluacion f');
+		$this->db->join('tb_formato_consumo fc', 'fc.id = f.tb_formato_consumo_id');
+
+		$this->db->where('f.id', $this->id_ficha);
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+        	return $query->row();
+		}else{
+			return false;
+		}
+
+	}
+
+	public function updateJP(){
+		
+		$this->db->set('estado_jefe_producto', 			$this->estado_jefe_producto);
+		$this->db->set('precio_competencia', 			$this->precio_competencia);
+		$this->db->set('rol_portafolio', 				$this->rol_portafolio);
+		$this->db->set('volumen', 						$this->volumen);
+		$this->db->set('expancion_de_linea', 			$this->expancion_de_linea);
+		$this->db->set('desarrollo_proveedor', 			$this->desarrollo_proveedor);
+		$this->db->set('comentario', 					$this->comentario);
+
+		$this->db->where('id', $this->id_ficha);
+		return $this->db->update('mv_ficha_evaluacion');
+
+	}
+
+	public function updateEstadoJP(){
+
+		$this->db->set('estado_sub_gerencia', 	$this->estado_sub_gerencia);
+		$this->db->set('estado_jefe_producto', 	$this->estado_jefe_producto);
+		$this->db->set('fecha_aprobacion_jp', 	$this->fecha_aprobacion_jp);
+		$this->db->where('id', $this->id_ficha);
+		return $this->db->update('mv_ficha_evaluacion');
+		
+	}
+		
+		// $this->db->set('fecha_aprobacion_jp', 			$this->fecha_aprobacion_jp);
+		// $this->db->set('fecha_aprobacion_comprador', 	$this->fecha_aprobacion_comprador);
+		// $this->db->set('fecha_aprobacion_subgerencia', 	$this->fecha_aprobacion_subgerencia);
+		// $this->db->set('fecha_aprobacion_gerencia', 		$this->fecha_aprobacion_gerencia);
+		// $this->db->set('fecha_rechazo', 					$this->fecha_rechazo);
+		// $this->db->set('id_subgerencia', 				$this->id_subgerencia);
+		// $this->db->set('id_gerencia', 					$this->id_gerencia);
 
 }
 

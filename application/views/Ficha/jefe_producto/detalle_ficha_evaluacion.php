@@ -3,9 +3,7 @@
         <div class="col-md-12">
                
             
-            <h1>Formulario Ficha de Evaluación</h1>
-
-			<p>A continuación deberá completar el formulario en la sección "Datos Jefe Produco".</p>
+            <h1>Detalle Ficha de Evaluación</h1>
 			
 			<hr>
 
@@ -177,6 +175,7 @@
 			        		</div>
 			        	</div>
 
+
 					</div>
 					<div role="tabpanel" class="tab-pane" id="tab_comprador">
 						
@@ -284,94 +283,75 @@
 						
 					</div>
 					<div role="tabpanel" class="tab-pane active" id="tab_jefe_producto">
-						
-						<form method="post" action="<?= base_url(); ?>ficha/update_ficha_jp">
-
-							<div class="row">
-								<div class="col-md-4">
-									
-									<!-- Precio Competencia -->
-									<div class="form-group">
-										<label class="label-control">Precio Competencia (Referencial)</label>
-										<input type="number" name="precio_competencia" id="precio_competencia" class="form-control" value="" placeholder="Ingrese precio competencia" required="">
-									</div>
-
+					
+						<div class="row">
+							<div class="col-md-4">
+								
+								<!-- Precio Competencia -->
+								<div class="form-group">
+									<label class="label-control">Precio Competencia (Referencial)</label>
+									<input type="" name="" value="<?= $ficha->precio_competencia; ?>" class="form-control" readonly="">
 								</div>
-								<div class="col-md-4">
-									
-									<!-- Rol en el Portafolio -->
-									<div class="form-group">
-										<label class="label-control">Rol en el Portafolio</label>
-										<select name="rol_portafolio" id="rol_portafolio" class="form-control" required="" >
-											<option value="Innovación">Innovación</option>
-											<option value="Margen">Margen</option>
-											<option value="Volumen">Volumen</option>
-											<option value="Abre nota">Abre nota</option>
-											<option value="Reemplazo">Reemplazo</option>
-											<option value="Nuevo segmento">Nuevo segmento</option>
-											<option value="Expansión de Linea">Expansión de Linea</option>
-											<option value="Desarrollo de Proveedor">Desarrollo de Proveedor</option>
-											<option value="In & out - Estacional">In & out - Estacional</option>
-										</select>
-									</div>
-									
-								</div>
-								<div class="col-md-4">
-									
-									<!-- Volumen -->
-									<div class="form-group">
-										<label class="label-control">Volumen</label>
-										<input type="text" name="volumen" id="volumen" class="form-control" value="" placeholder="Ingrese volumen" required="">
-									</div>
 
-								</div>
 							</div>
-
-							
-							<div class="row">
+							<div class="col-md-4">
+								
+								<!-- Rol en el Portafolio -->
+								<div class="form-group">
+									<label class="label-control">Rol en el Portafolio</label>
+									<input type="" name="" value="<?= $ficha->rol_portafolio; ?>" class="form-control" readonly="">
+								</div>
 								
 							</div>
-							<div class="row">
-								<div class="col-md-4">
-									
-									<!-- expancion_de_linea -->
-									<div class="form-group">
-										<label for="" class="label-control">Expanción de Linea</label>
-										<textarea name="expancion_de_linea" id="expancion_de_linea" class="form-control" placeholder="" required=""></textarea>
-									</div>
-
+							<div class="col-md-4">
+								
+								<!-- Volumen -->
+								<div class="form-group">
+									<label class="label-control">Volumen</label>
+									<input type="" name="" value="<?= $ficha->volumen; ?>" class="form-control" readonly="">
 								</div>
-								<div class="col-md-4">
-									
-									<!-- desarrollo_proveedor -->
-									<div class="form-group">
-										<label for="" class="label-control">Desarrollo Proveedor</label>
-										<textarea name="desarrollo_proveedor" id="desarrollo_proveedor" class="form-control" placeholder="" required=""></textarea>
-									</div>
 
-								</div>
-								<div class="col-md-4">
-									
-									<!-- comentario -->
-									<div class="form-group">
-										<label for="" class="label-control">Comentario</label>
-										<textarea name="comentario" id="comentario" class="form-control" placeholder="" required=""></textarea>
-									</div>
-
-								</div>
 							</div>
-							
-							<hr>
-							
-							<div class="text-center">
-								<input type="hidden" name="id_ficha" value="<?= $ficha->id ?>">
-								<button type="submit" class="btn btn-success">Guardar</button>
-								<a href="<?= base_url(); ?>ficha/ver_ficha_jp" class="btn btn-default">Volver</a>
-							</div>
+						</div>
 
-						</form>
+						<div class="row">
+							<div class="col-md-4">
+								
+								<!-- expancion_de_linea -->
+								<div class="form-group">
+									<label for="" class="label-control">Expanción de Linea</label>
+									<textarea readonly="" class="form-control"><?= $ficha->expancion_de_linea; ?></textarea>
+								</div>
+
+							</div>
+							<div class="col-md-4">
+								
+								<!-- desarrollo_proveedor -->
+								<div class="form-group">
+									<label for="" class="label-control">Desarrollo Proveedor</label>
+									<textarea readonly="" class="form-control"><?= $ficha->desarrollo_proveedor; ?></textarea>
+								</div>
+
+							</div>
+							<div class="col-md-4">
+								
+								<!-- comentario -->
+								<div class="form-group">
+									<label for="" class="label-control">Comentario</label>
+									<textarea readonly="" class="form-control"><?= $ficha->comentario; ?></textarea>
+								</div>
+
+							</div>
+						</div>
 
 					</div>
+				</div>
+
+				<div class="text-center">
+
+					<a href="<?= base_url().'ficha/crear_ficha_jp/'.$ficha->id ?>" class="btn btn-primary">Editar</a>
+					<a href="<?= base_url(); ?>ficha/ver_ficha_jp" class="btn btn-default">Volver</a>
+					
 				</div>
 
 			</div>

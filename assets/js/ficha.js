@@ -14,10 +14,10 @@ jQuery(document).ready(function($) {
     // });
 
     // btn enviar ficha 
-    $(".btn_enviar").click(function(event) {
+    $(".btn_enviar_proveedor").click(function(event) {
         
-        var fila = $(this).closest('tr');
-        var id_ficha = fila.data('id');
+        var fila        = $(this).closest('tr');
+        var id_ficha    = fila.data('id');
 
         $.ajax({
             url: main.bs + 'ficha/updateEstadoProveedor',
@@ -42,8 +42,8 @@ jQuery(document).ready(function($) {
     // btn eliminar ficha 
     $(".btn_eliminar").click(function(event) {
         
-        var fila = $(this).closest('tr');
-        var id_ficha = fila.data('id');
+        var fila        = $(this).closest('tr');
+        var id_ficha    = fila.data('id');
 
         $.ajax({
             url: main.bs + 'ficha/eliminarFichaProveedor',
@@ -67,7 +67,7 @@ jQuery(document).ready(function($) {
 
     // -----------------------------
     // btn enviar ficha 
-    $(".btn_enviar_jp").click(function(event) {
+    $(".btn_enviar_comprador").click(function(event) {
         
         var fila = $(this).closest('tr');
         var id_ficha = fila.data('id');
@@ -81,6 +81,32 @@ jQuery(document).ready(function($) {
         .done(function() {
             console.log("success");
             window.location.href = main.bs + 'ficha/ver_ficha_comprador';
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+        
+
+    });    
+
+    // btn enviar ficha 
+    $(".btn_enviar_jp").click(function(event) {
+        
+        var fila = $(this).closest('tr');
+        var id_ficha = fila.data('id');
+
+        $.ajax({
+            url: main.bs + 'ficha/updateEstadoJP',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {ficha_id: id_ficha},
+        })
+        .done(function() {
+            console.log("success");
+            window.location.href = main.bs + 'ficha/ver_ficha_jp';
         })
         .fail(function() {
             console.log("error");
